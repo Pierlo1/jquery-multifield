@@ -94,14 +94,17 @@
 			// Clone last section
 			var newChild = $(this.config.section, this.$elem).last().clone().attr('style', '').attr('id', '').fadeIn('fast');
 
-
 			// Clear input values
 			$('input[type=text],input[type=hidden],textarea', newChild).each(function () {
 				$(this).val('');
 			});
 
+            // Update name[i] to [i+1] on indicated inputs
+            this.incrementInput(newChild, 'input.increment,textarea.increment,select.increment');
+
 			// Fix radio buttons: update name [i] to [i+1]
-			newChild.find('input[type="radio"]').each(function(){var name=$(this).attr('name');$(this).attr('name',name.replace(/([0-9]+)/g,1*(name.match(/([0-9]+)/g))+1));});
+            this.incrementInput(newChild, 'input[type="radio"]');
+
 			// Reset radio button selection
 			$('input[type=radio]',newChild).attr('checked', false);
 
@@ -111,7 +114,8 @@
 			});
 
 			// Append new section
-			this.$elem.append(newChild);
+            this.$elem.children(this.config.section).last().after(newChild);
+			// this.$elem.append(newChild);
 
 			// Show 'remove' button
 			$(this.config.btnRemove, this.$elem).show();
@@ -130,6 +134,16 @@
 				section.slideUp('fast', function () {$(this).detach();});
 			}
 		},
+
+        /**
+         * Increment number in input name by 1
+         */
+        incrementInput: function(child, input){
+            child.find(input).each(function(){
+                var name=$(this).attr('name');
+                $(this).attr('name',name.replace(/([0-9]+)/g,1*(name.match(/([0-9]+)/g))+1));
+            });
+        },
 
 		/*
 		 * Get sections count
