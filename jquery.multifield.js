@@ -111,7 +111,7 @@
 
                 $(this).select2({ data: options });
 
-                $(this).siblings().last().remove();
+                $(this).siblings('.select2').last().remove();
 
                 $(this).next().css('width', width);
 			});
