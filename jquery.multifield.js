@@ -95,8 +95,25 @@
 			var newChild = $(this.config.section, this.$elem).last().clone().attr('style', '').attr('id', '').fadeIn('fast');
 
 			// Clear input values
-			$('input[type=text],input[type=hidden],textarea', newChild).each(function () {
+			$('input[type=text],input[type=date],input[type=hidden],textarea', newChild).each(function () {
 				$(this).val('');
+			});
+
+			// Duplicate and clear select2 inputs
+            $('select[data-plugin=select2]', newChild).each(function() {
+                var options = [];
+
+                $(this).find('option').each(function() {
+                    options.push({ id: this.value, text: this.value });
+                });
+
+                var width = $(this).next().css('width');
+
+                $(this).select2({ data: options });
+
+                $(this).siblings().last().remove();
+
+                $(this).next().css('width', width);
 			});
 
             // Update name[i] to [i+1] on indicated inputs
