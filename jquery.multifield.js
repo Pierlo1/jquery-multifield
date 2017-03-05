@@ -99,6 +99,11 @@
 				$(this).val('');
 			});
 
+			// Initialize DateTime Pickers
+            $('input[data-plugin=datetimepicker]', newChild).each(function() {
+                $(this).datetimepicker( eval('[' + $(this).attr('data-options') + ']')[0] );
+            })
+
 			// Duplicate and clear select2 inputs
             $('select[data-plugin=select2]', newChild).each(function() {
                 var options = [];
